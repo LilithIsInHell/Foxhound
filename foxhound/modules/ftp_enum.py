@@ -1,7 +1,7 @@
 # modules/ftp_enum.py
 import ftplib
 import os
-from utils import logger
+from foxhound.utils import logger
 
 def enum_ftp(target, output_dir):
     output_file = os.path.join(output_dir, "ftp_enum.txt")

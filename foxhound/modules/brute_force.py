@@ -1,7 +1,7 @@
 # modules/brute_force.py
 import subprocess
 import os
-from utils import logger
+from foxhound.utils import logger
 
 def brute_force_ssh(target, output_dir, username, wordlist):
     output_file = os.path.join(output_dir, "ssh_brute.txt")

@@ -1,7 +1,7 @@
 # modules/web_fuzzer.py
 import subprocess
 import os
-from utils import logger
+from foxhound.utils import logger
 
 def fuzz_web(target, output_dir):
     output_file = os.path.join(output_dir, "web_fuzz.txt")

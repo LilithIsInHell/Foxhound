@@ -3,9 +3,9 @@ import argparse
 import os
 import time
 from datetime import datetime
-from modules import scanner, web_fuzzer, smb_enum, ftp_enum, brute_force
-from utils import logger, report_writer
-from utils.dependency_check import check_dependencies
+from foxhound.modules import scanner, web_fuzzer, smb_enum, ftp_enum, brute_force
+from foxhound.utils import logger, report_writer
+from foxhound.utils.dependency_check import check_dependencies
 from colorama import Fore, Style
 
 def print_banner():

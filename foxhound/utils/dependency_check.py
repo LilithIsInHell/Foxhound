@@ -1,6 +1,6 @@
 # utils/dependency_check.py
 import shutil
-from utils import logger
+from foxhound.utils import logger
 
 REQUIRED_TOOLS = [
     "nmap",
