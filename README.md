@@ -1,4 +1,4 @@
-## Foxhound
+![image](https://github.com/user-attachments/assets/b71c8ac0-a7a4-4256-8c0e-fe9b44dad3b5)
 
 **Foxhound** is a modular reconnaissance automation tool designed to streamline offensive security assessments by automating port scanning, service enumeration, web fuzzing, and brute forcing.
 
