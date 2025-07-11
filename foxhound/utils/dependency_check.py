@@ -6,7 +6,6 @@ REQUIRED_TOOLS = [
     "nmap",
     "rustscan",
     "ffuf",
-    "hydra",
     "smbclient"
 ]
 

@@ -15,7 +15,6 @@ def generate_report(target, output_dir):
         report.write("- [Web Fuzzing](#-web-fuzzing)\n")
         report.write("- [SMB Enumeration](#-smb-enumeration)\n")
         report.write("- [FTP Enumeration](#-ftp-enumeration)\n")
-        report.write("- [Brute Force Attempts](#-brute-force-attempts)\n\n")
 
         report.write("##Port Scan Results\n")
         nmap_file = os.path.join(output_dir, "nmap_scan.txt")
@@ -57,25 +56,5 @@ def generate_report(target, output_dir):
         else:
             report.write("_No FTP enumeration results found._\n")
 
-        report.write("\n##Brute Force Attempts\n")
-        ssh_brute = os.path.join(output_dir, "ssh_brute.txt")
-        if os.path.exists(ssh_brute):
-            report.write("\n###SSH Brute Force\n")
-            with open(ssh_brute, 'r') as ssh:
-                report.write("\n```plaintext\n")
-                report.write(ssh.read())
-                report.write("\n```\n")
-        else:
-            report.write("_No SSH brute force results found._\n")
-
-        ftp_brute = os.path.join(output_dir, "ftp_brute.txt")
-        if os.path.exists(ftp_brute):
-            report.write("\n###FTP Brute Force\n")
-            with open(ftp_brute, 'r') as ftp:
-                report.write("\n```plaintext\n")
-                report.write(ftp.read())
-                report.write("\n```\n")
-        else:
-            report.write("_No FTP brute force results found._\n")
 
    
