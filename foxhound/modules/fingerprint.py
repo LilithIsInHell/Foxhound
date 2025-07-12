@@ -2,7 +2,6 @@ import os
 import re
 import json
 import requests
-import hashlib
 import base64
 import mmh3
 
@@ -10,7 +9,6 @@ from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 from foxhound.utils import logger
 
-DEFAULT_PORTS = [80, 443, 8080, 8000, 8443]
 TIMEOUT = 5
 
 
@@ -22,11 +20,19 @@ def load_fingerprints():
 
 def fetch_http_response(target, port):
     schemes = ['https://', 'http://'] if port in [443, 8443] else ['http://']
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                      "AppleWebKit/537.36 (KHTML, like Gecko) "
+                      "Chrome/124.0.6367.91 Safari/537.36"
+    }
+
     for scheme in schemes:
+        url = f"{scheme}{target}:{port}/"
         try:
-            url = f"{scheme}{target}:{port}/"
-            response = requests.get(url, timeout=TIMEOUT, verify=False, allow_redirects=True)
-            return response
+            response = requests.get(url, timeout=TIMEOUT, verify=False, allow_redirects=True, headers=headers)
+            content_type = response.headers.get("Content-Type", "").lower()
+            if content_type == "" or any(x in content_type for x in ["text", "html", "xml", "json"]):
+                return response
         except requests.RequestException:
             continue
     return None
@@ -87,42 +93,59 @@ def match_fingerprint(response, fingerprint, favicon_hash=None):
                 confidence += weight
                 details.append(f"[Favicon] hash matched '{pattern}' (+{weight})")
 
-        # Future support: cert, js, path, etc.
-
     return confidence, details
 
 
 def fingerprint_services(target, open_ports, output_dir):
     fingerprints = load_fingerprints()
     results = []
+    favicon_cache = {}
 
     for port in open_ports:
-        if port not in DEFAULT_PORTS:
-            continue
-
-        logger.log(f"[*] Fingerprinting HTTP service on port {port}...")
-        response = fetch_http_response(target, port)
-        if not response:
-            logger.log(f"[!] No response on port {port}. Skipping.", level="ERROR")
-            continue
+        logger.log(f"[*] Probing port {port} for HTTP service...")
 
         scheme = 'https' if port in [443, 8443] else 'http'
         base_url = f"{scheme}://{target}:{port}"
-        favicon_hash = get_favicon_hash(base_url)
+
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                          "AppleWebKit/537.36 (KHTML, like Gecko) "
+                          "Chrome/124.0.6367.91 Safari/537.36"
+        }
 
         for fp in fingerprints:
-            confidence, details = match_fingerprint(response, fp, favicon_hash)
-            if confidence >= fp.get('confidence', 1.5):
-                result = {
-                    "port": port,
-                    "fingerprint": fp['name'],
-                    "confidence": confidence,
-                    "details": details
-                }
-                results.append(result)
-                logger.log(f"[+] Matched {fp['name']} on port {port} ({confidence})")
+            paths = fp.get("paths", ["/"])  # Default to root if no paths
 
-    # Save results to output dir
+            for path in paths:
+                full_url = f"{base_url}{path}"
+                try:
+                    response = requests.get(full_url, timeout=TIMEOUT, verify=False, allow_redirects=True, headers=headers)
+                    content_type = response.headers.get("Content-Type", "").lower()
+
+                    if content_type == "" or any(x in content_type for x in ["text", "html", "xml", "json"]):
+                        if port not in favicon_cache:
+                            favicon_cache[port] = get_favicon_hash(base_url)
+                        favicon_hash = favicon_cache[port]
+
+                        confidence, details = match_fingerprint(response, fp, favicon_hash)
+                        if confidence >= fp.get('confidence', 1.5):
+                            result = {
+                                "port": port,
+                                "path": path,
+                                "fingerprint": fp['name'],
+                                "confidence": confidence,
+                                "details": details
+                            }
+                            results.append(result)
+
+                            logger.log(f"[+] Matched {fp['name']} on {port}{path} ({confidence})")
+                            for i, d in enumerate(details):
+                                branch = "└─" if i == len(details) - 1 else "├─"
+                                logger.log(f"    {branch} {d}")
+                            break  # Stop after first good match
+                except requests.RequestException:
+                    continue
+
     output_path = os.path.join(output_dir, "fingerprint_results.json")
     with open(output_path, 'w') as f:
         json.dump(results, f, indent=2)

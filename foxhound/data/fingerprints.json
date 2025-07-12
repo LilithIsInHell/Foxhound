@@ -1,129 +1,51 @@
 [
   {
-    "name": "phpMyAdmin",
-    "confidence": 2.0,
-    "matches": [
-      { "part": "headers", "pattern": "phpmyadmin", "confidence": 1.0 },
-      { "part": "body", "pattern": "phpMyAdmin", "confidence": 0.6 },
-      { "part": "body", "pattern": "pma_password", "confidence": 0.4 }
-    ]
-  },
-  {
-    "name": "WordPress",
-    "confidence": 2.0,
-    "matches": [
-      { "part": "body", "pattern": "wp-content", "confidence": 0.7 },
-      { "part": "body", "pattern": "wp-includes", "confidence": 0.7 },
-      { "part": "body", "pattern": "WordPress", "confidence": 0.6 }
-    ]
-  },
-  {
-    "name": "Joomla",
-    "confidence": 2.0,
-    "matches": [
-      { "part": "body", "pattern": "content=\\\"Joomla!", "confidence": 1.0 },
-      {
-        "part": "body",
-        "pattern": "Joomla! - Open Source Content Management",
-        "confidence": 1.0
-      }
-    ]
-  },
-  {
-    "name": "Drupal",
-    "confidence": 2.0,
-    "matches": [
-      { "part": "body", "pattern": "drupal-settings-json", "confidence": 1.0 },
-      { "part": "body", "pattern": "content=\\\"Drupal", "confidence": 1.0 }
-    ]
-  },
-  {
     "name": "Apache Default Page",
     "confidence": 1.5,
     "matches": [
       { "part": "body", "pattern": "It works!", "confidence": 0.8 },
       { "part": "body", "pattern": "Apache HTTP Server", "confidence": 0.7 }
-    ]
+    ],
+    "paths": ["/"]
   },
   {
-    "name": "nginx Default Page",
-    "confidence": 1.5,
-    "matches": [
-      { "part": "body", "pattern": "Welcome to nginx!", "confidence": 1.5 }
-    ]
-  },
-  {
-    "name": "GitLab",
-    "confidence": 2.5,
-    "matches": [
-      {
-        "part": "body",
-        "pattern": "<meta content=\\\"GitLab",
-        "confidence": 2.5
-      }
-    ]
-  },
-  {
-    "name": "Grafana",
-    "confidence": 2.5,
-    "matches": [
-      {
-        "part": "body",
-        "pattern": "<title>Grafana</title>",
-        "confidence": 1.2
-      },
-      { "part": "body", "pattern": "grafana-app", "confidence": 1.3 }
-    ]
-  },
-  {
-    "name": "Prometheus",
-    "confidence": 2.5,
-    "matches": [
-      {
-        "part": "body",
-        "pattern": "Prometheus Time Series",
-        "confidence": 1.2
-      },
-      { "part": "body", "pattern": "<title>Prometheus", "confidence": 1.3 }
-    ]
-  },
-  {
-    "name": "Jenkins",
-    "confidence": 2.5,
-    "matches": [
-      { "part": "body", "pattern": "Jenkins", "confidence": 1.2 },
-      {
-        "part": "body",
-        "pattern": "Dashboard \\[Jenkins\\]",
-        "confidence": 1.3
-      }
-    ]
-  },
-  {
-    "name": "TeamCity",
-    "confidence": 2.5,
-    "matches": [
-      { "part": "body", "pattern": "<title>TeamCity", "confidence": 1.0 },
-      { "part": "body", "pattern": "TeamCity Professional", "confidence": 0.8 },
-      { "part": "body", "pattern": "jetbrains\\.teamcity", "confidence": 0.7 },
-      { "part": "headers", "pattern": "TEAMCITY_SESSION", "confidence": 0.7 }
-    ]
-  },
-  {
-    "name": "Kibana",
+    "name": "Apache Guacamole",
     "confidence": 2.0,
     "matches": [
-      { "part": "body", "pattern": "kbn-version", "confidence": 1.0 },
-      { "part": "body", "pattern": "Kibana", "confidence": 1.0 }
-    ]
+      { "part": "title", "pattern": "Guacamole", "confidence": 1.0 },
+      { "part": "body", "pattern": "Apache Guacamole", "confidence": 1.0 }
+    ],
+    "paths": ["/", "/guacamole/"]
   },
   {
-    "name": "Zabbix",
+    "name": "Cockpit (Linux Admin Panel)",
     "confidence": 2.0,
     "matches": [
-      { "part": "body", "pattern": "Zabbix SIA", "confidence": 1.0 },
-      { "part": "body", "pattern": "zabbix", "confidence": 1.0 }
-    ]
+      { "part": "body", "pattern": "Cockpit Web Console", "confidence": 2.0 }
+    ],
+    "paths": ["/cockpit/"]
+  },
+  {
+    "name": "Confluence",
+    "confidence": 2.0,
+    "matches": [
+      { "part": "title", "pattern": "Confluence", "confidence": 1.0 },
+      {
+        "part": "body",
+        "pattern": "Powered by Atlassian Confluence",
+        "confidence": 1.0
+      }
+    ],
+    "paths": ["/", "/login.action"]
+  },
+  {
+    "name": "Cacti",
+    "confidence": 2.0,
+    "matches": [
+      { "part": "body", "pattern": "Cacti", "confidence": 1.0 },
+      { "part": "body", "pattern": "Cacti - Login", "confidence": 1.0 }
+    ],
+    "paths": ["/", "/login.php"]
   },
   {
     "name": "Django Admin",
@@ -135,38 +57,17 @@
         "pattern": "Log in \\| Django site admin",
         "confidence": 1.0
       }
-    ]
+    ],
+    "paths": ["/", "/admin/"]
   },
   {
-    "name": "Shiny Server (RStudio)",
+    "name": "Drupal",
     "confidence": 2.0,
     "matches": [
-      { "part": "body", "pattern": "shiny-server-content", "confidence": 1.0 },
-      { "part": "body", "pattern": "Shiny Server", "confidence": 1.0 }
-    ]
-  },
-  {
-    "name": "Cockpit (Linux Admin Panel)",
-    "confidence": 2.0,
-    "matches": [
-      { "part": "body", "pattern": "Cockpit Web Console", "confidence": 2.0 }
-    ]
-  },
-  {
-    "name": "Cacti",
-    "confidence": 2.0,
-    "matches": [
-      { "part": "body", "pattern": "Cacti", "confidence": 1.0 },
-      { "part": "body", "pattern": "Cacti - Login", "confidence": 1.0 }
-    ]
-  },
-  {
-    "name": "Open Web Analytics",
-    "confidence": 1.5,
-    "matches": [
-      { "part": "body", "pattern": "Open Web Analytics", "confidence": 0.8 },
-      { "part": "body", "pattern": "OWA", "confidence": 0.7 }
-    ]
+      { "part": "body", "pattern": "drupal-settings-json", "confidence": 1.0 },
+      { "part": "body", "pattern": "content=\\\"Drupal", "confidence": 1.0 }
+    ],
+    "paths": ["/user/login"]
   },
   {
     "name": "Elasticsearch",
@@ -174,7 +75,95 @@
     "matches": [
       { "part": "body", "pattern": "You Know, for Search", "confidence": 1.0 },
       { "part": "body", "pattern": "cluster_name", "confidence": 1.0 }
-    ]
+    ],
+    "paths": ["/"]
+  },
+  {
+    "name": "GitLab",
+    "confidence": 2.5,
+    "matches": [
+      {
+        "part": "body",
+        "pattern": "<meta content=\\\"GitLab",
+        "confidence": 2.5
+      }
+    ],
+    "paths": ["/", "/users/sign_in"]
+  },
+  {
+    "name": "Grafana",
+    "confidence": 2.5,
+    "matches": [
+      {
+        "part": "body",
+        "pattern": "<title>Grafana</title>",
+        "confidence": 1.2
+      },
+      { "part": "body", "pattern": "grafana-app", "confidence": 1.3 }
+    ],
+    "paths": ["/", "/login"]
+  },
+  {
+    "name": "Graylog",
+    "confidence": 2.0,
+    "matches": [
+      { "part": "title", "pattern": "Graylog", "confidence": 1.0 },
+      { "part": "body", "pattern": "graylog\\.web", "confidence": 1.0 }
+    ],
+    "paths": ["/", "/login"]
+  },
+  {
+    "name": "HashiCorp Vault",
+    "confidence": 2.0,
+    "matches": [
+      { "part": "title", "pattern": "Vault", "confidence": 1.0 },
+      { "part": "body", "pattern": "Vault UI", "confidence": 1.0 }
+    ],
+    "paths": ["/ui/"]
+  },
+  {
+    "name": "Jenkins",
+    "confidence": 2.5,
+    "matches": [
+      { "part": "body", "pattern": "Jenkins", "confidence": 1.2 },
+      {
+        "part": "body",
+        "pattern": "Dashboard \\[Jenkins\\]",
+        "confidence": 1.3
+      }
+    ],
+    "paths": ["/", "/login"]
+  },
+  {
+    "name": "Jira",
+    "confidence": 2.0,
+    "matches": [
+      { "part": "title", "pattern": "Jira", "confidence": 1.0 },
+      { "part": "body", "pattern": "jira\\.webresources", "confidence": 1.0 }
+    ],
+    "paths": ["/", "/login.jsp"]
+  },
+  {
+    "name": "Joomla",
+    "confidence": 2.0,
+    "matches": [
+      { "part": "body", "pattern": "content=\\\"Joomla!", "confidence": 1.0 },
+      {
+        "part": "body",
+        "pattern": "Joomla! - Open Source Content Management",
+        "confidence": 1.0
+      }
+    ],
+    "paths": ["/administrator/"]
+  },
+  {
+    "name": "Kibana",
+    "confidence": 2.0,
+    "matches": [
+      { "part": "body", "pattern": "kbn-version", "confidence": 1.0 },
+      { "part": "body", "pattern": "Kibana", "confidence": 1.0 }
+    ],
+    "paths": ["/"]
   },
   {
     "name": "Mattermost",
@@ -182,6 +171,108 @@
     "matches": [
       { "part": "body", "pattern": "Mattermost", "confidence": 1.0 },
       { "part": "body", "pattern": "<title>Mattermost", "confidence": 1.0 }
-    ]
+    ],
+    "paths": ["/", "/login"]
+  },
+  {
+    "name": "nginx Default Page",
+    "confidence": 1.5,
+    "matches": [
+      { "part": "body", "pattern": "Welcome to nginx!", "confidence": 1.5 }
+    ],
+    "paths": ["/"]
+  },
+  {
+    "name": "Open Web Analytics",
+    "confidence": 1.5,
+    "matches": [
+      { "part": "body", "pattern": "Open Web Analytics", "confidence": 0.8 },
+      { "part": "body", "pattern": "OWA", "confidence": 0.7 }
+    ],
+    "paths": ["/"]
+  },
+  {
+    "name": "phpMyAdmin",
+    "confidence": 2.0,
+    "matches": [
+      { "part": "headers", "pattern": "phpmyadmin", "confidence": 1.0 },
+      { "part": "body", "pattern": "phpMyAdmin", "confidence": 0.6 },
+      { "part": "body", "pattern": "pma_password", "confidence": 0.4 }
+    ],
+    "paths": ["/", "/phpmyadmin/"]
+  },
+  {
+    "name": "Prometheus",
+    "confidence": 2.5,
+    "matches": [
+      {
+        "part": "body",
+        "pattern": "Prometheus Time Series",
+        "confidence": 1.2
+      },
+      { "part": "body", "pattern": "<title>Prometheus", "confidence": 1.3 }
+    ],
+    "paths": ["/"]
+  },
+  {
+    "name": "Shiny Server (RStudio)",
+    "confidence": 2.0,
+    "matches": [
+      { "part": "body", "pattern": "shiny-server-content", "confidence": 1.0 },
+      { "part": "body", "pattern": "Shiny Server", "confidence": 1.0 }
+    ],
+    "paths": ["/"]
+  },
+  {
+    "name": "SonarQube",
+    "confidence": 2.0,
+    "matches": [
+      { "part": "body", "pattern": "Welcome to SonarQube", "confidence": 1.0 },
+      { "part": "body", "pattern": "sonar\\.core\\.server", "confidence": 1.0 }
+    ],
+    "paths": ["/", "/sessions/new"]
+  },
+  {
+    "name": "Splunk",
+    "confidence": 2.0,
+    "matches": [
+      { "part": "title", "pattern": "Splunk", "confidence": 1.0 },
+      { "part": "body", "pattern": "splunk\\.", "confidence": 1.0 }
+    ],
+    "paths": ["/", "/en-US/account/login"]
+  },
+  {
+    "name": "TeamCity",
+    "confidence": 2.0,
+    "matches": [
+      { "part": "title", "pattern": "TeamCity", "confidence": 1.0 },
+      { "part": "body", "pattern": "Log in to TeamCity", "confidence": 0.8 },
+      {
+        "part": "body",
+        "pattern": "Version\\s+\\d{4}\\.\\d+",
+        "confidence": 0.7
+      },
+      { "part": "body", "pattern": "build\\s+\\d{5,}", "confidence": 0.5 }
+    ],
+    "paths": ["/", "/login.html"]
+  },
+  {
+    "name": "WordPress",
+    "confidence": 2.0,
+    "matches": [
+      { "part": "body", "pattern": "wp-content", "confidence": 0.7 },
+      { "part": "body", "pattern": "wp-includes", "confidence": 0.7 },
+      { "part": "body", "pattern": "WordPress", "confidence": 0.6 }
+    ],
+    "paths": ["/", "/wp-login.php"]
+  },
+  {
+    "name": "Zabbix",
+    "confidence": 2.0,
+    "matches": [
+      { "part": "body", "pattern": "Zabbix SIA", "confidence": 1.0 },
+      { "part": "body", "pattern": "zabbix", "confidence": 1.0 }
+    ],
+    "paths": ["/", "/zabbix/"]
   }
 ]
