@@ -1,1 +1,5 @@
 colorama>=0.4.6
+requests
+beautifulsoup4
+mmh3
+

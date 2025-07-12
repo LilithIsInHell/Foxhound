@@ -7,6 +7,7 @@ from foxhound.modules import scanner, web_fuzzer, smb_enum, ftp_enum
 from foxhound.utils import logger, report_writer
 from foxhound.utils.dependency_check import check_dependencies
 from colorama import Fore, Style
+from foxhound.modules import fingerprint
 
 def print_banner():
     banner = r'''
@@ -48,6 +49,10 @@ def main():
     start_time = time.time()
     open_ports = scanner.scan_target(args.target, output_dir)
 
+    # Fingerprint web services automatically
+    fingerprint_results = fingerprint.fingerprint_services(args.target, open_ports, output_dir)
+
+
     ran_web = ran_ftp_enum = ran_smb = False
 
     if args.scan_only:
@@ -72,13 +77,21 @@ def main():
     minutes, seconds = divmod(int(duration), 60)
     logger.log(f"[*] Recon complete in {minutes} minutes, {seconds} seconds.")
 
-    # Final scan summary with color
+   # Final scan summary with color
     logger.log("\n" + Fore.CYAN + Style.BRIGHT + "[+] Scan Summary" + Style.RESET_ALL)
     logger.log(Fore.YELLOW + "- Open Ports: " + ", ".join(map(str, open_ports)) + Style.RESET_ALL)
     logger.log(Fore.YELLOW + "- Web Fuzzing: " + (Fore.GREEN + "✔" if ran_web else Fore.RED + "✘") + Style.RESET_ALL)
     logger.log(Fore.YELLOW + "- FTP Enum: " + (Fore.GREEN + "✔" if ran_ftp_enum else Fore.RED + "✘") + Style.RESET_ALL)
     logger.log(Fore.YELLOW + "- SMB Enum: " + (Fore.GREEN + "✔" if ran_smb else Fore.RED + "✘") + Style.RESET_ALL)
     logger.log(Fore.YELLOW + f"- Report Path: {os.path.join(output_dir, 'report.md')}" + Style.RESET_ALL)
+
+    if fingerprint_results:
+        logger.log(Fore.YELLOW + "- Fingerprints:" + Style.RESET_ALL)
+        for result in fingerprint_results:
+            logger.log(Fore.GREEN + f"  - Port {result['port']}: {result['fingerprint']} ({result['confidence']}%)" + Style.RESET_ALL)
+    else:
+        logger.log(Fore.YELLOW + "- Fingerprints: " + Fore.RED + "✘ No matches" + Style.RESET_ALL)
+
 
 if __name__ == "__main__":
     main()
