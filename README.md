@@ -51,10 +51,6 @@ foxhound -t 10.10.10.10
 
 `--version` Show version info
 
-## Contributing
-
-Contributions and improvements are welcome! Feel free to open issues or submit pull requests.
-
 ## Disclaimer
 
 This tool is intended for authorized security testing only. Use responsibly.
