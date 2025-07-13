@@ -8,6 +8,7 @@ from foxhound.utils import logger, report_writer
 from foxhound.utils.dependency_check import check_dependencies
 from colorama import Fore, Style
 from foxhound.modules import fingerprint
+from foxhound.modules import robots
 
 def print_banner():
     banner = r'''
@@ -51,7 +52,14 @@ def main():
 
     # Fingerprint web services automatically
     fingerprint_results = fingerprint.fingerprint_services(args.target, open_ports, output_dir)
+    
+    robots_results = {}
 
+    for port in open_ports:
+        if port in [80, 443, 8080, 8443, 8000, 50000]:
+            entries = robots.fetch_robots_txt(args.target, port, output_dir)
+            if entries:
+                robots_results[port] = entries
 
     ran_web = ran_ftp_enum = ran_smb = False
 
@@ -83,15 +91,22 @@ def main():
     logger.log(Fore.YELLOW + "- Web Fuzzing: " + (Fore.GREEN + "✔" if ran_web else Fore.RED + "✘") + Style.RESET_ALL)
     logger.log(Fore.YELLOW + "- FTP Enum: " + (Fore.GREEN + "✔" if ran_ftp_enum else Fore.RED + "✘") + Style.RESET_ALL)
     logger.log(Fore.YELLOW + "- SMB Enum: " + (Fore.GREEN + "✔" if ran_smb else Fore.RED + "✘") + Style.RESET_ALL)
-    logger.log(Fore.YELLOW + f"- Report Path: {os.path.join(output_dir, 'report.md')}" + Style.RESET_ALL)
-
     if fingerprint_results:
         logger.log(Fore.YELLOW + "- Fingerprints:" + Style.RESET_ALL)
         for result in fingerprint_results:
             logger.log(Fore.GREEN + f"  - Port {result['port']}: {result['fingerprint']} ({result['confidence']}%)" + Style.RESET_ALL)
     else:
         logger.log(Fore.YELLOW + "- Fingerprints: " + Fore.RED + "✘ No matches" + Style.RESET_ALL)
+    if robots_results:
+        logger.log(Fore.YELLOW + "- Robots.txt Findings:" + Style.RESET_ALL)
+        for port, entries in robots_results.items():
+            logger.log(Fore.GREEN + f"  - Port {port}:" + Style.RESET_ALL)
+            for entry in entries:
+                logger.log("    └─ " + entry)
+    else:
+        logger.log(Fore.YELLOW + "- Robots.txt Findings: " + Fore.RED + "✘ None found" + Style.RESET_ALL)
 
+    logger.log(Fore.YELLOW + f"- Report Path: {os.path.join(output_dir, 'report.md')}" + Style.RESET_ALL)
 
 if __name__ == "__main__":
     main()
