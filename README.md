@@ -43,10 +43,6 @@ foxhound -t 10.10.10.10
 
 `-o, --output` Output directory (default: timestamped)
 
-`-u, --username` Username for brute force
-
-`-w, --wordlist` Password wordlist for brute force
-
 `--scan-only` Only perform port scan (skip enumeration)
 
 `--version` Show version info
